@@ -1,0 +1,8 @@
+Sandbox_config.sbc
+.git
+.idea
+.venv
+.gitattributes
+builds
+dist
+*.spec
