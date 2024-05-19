@@ -2,12 +2,21 @@ import re
 import os
 
 
-def read_file():
-    cf = open('Sandbox_config.sbc', 'r')
+def read_file(sbc_file):
+    try:
+        if sbc_file is None:
+            cf = open('Sandbox_config.sbc', 'r')
+            sbc_file = 'Sandbox_config.sbc'
+        else:
+            cf = open(sbc_file, 'r')
+    except PermissionError:
+        return 4
+    except FileNotFoundError:
+        return 3
     sandbox = cf.read()
     # Checks if <Mods /> is present, and if so converts to <Mods>\n</Mods> as required
     sandbox = re.sub(r'<Mods\s*/>', '<Mods>\n  </Mods>', sandbox)
-    with open('Sandbox_config.sbc', 'w') as cf:
+    with open(sbc_file, 'w') as cf:
         cf.write(sandbox)
     # Pulls data from sandbox_config.sbc for existing mods and writes them to a temporary xml file for later usage
     mods_pattern = re.compile(r'<Mods>(.*?)</Mods>', re.DOTALL)
@@ -18,6 +27,7 @@ def read_file():
         mods_content = mods_match.group(1)
         ff.write(mods_content)
     ff.close()
+    return sbc_file
 
 
 def read_mod_input():
@@ -54,9 +64,9 @@ def remove_blank_lines(file_path):
     return file
 
 
-def write_file(mods_content):
+def write_file(mods_content, sbc_write):
     # Writes data to Sandbox_config.sbc from temp files including existing mods from Sandbox_config.sbc
-    with open('Sandbox_config.sbc', 'r') as file:
+    with open(sbc_write, 'r') as file:
         sandbox_lines = file.readlines()
     start_index = None
     end_index = None
@@ -74,7 +84,7 @@ def write_file(mods_content):
             sandbox_lines[end_index:]
         )
     # Write lines to Sandbox_config.sbc
-    with open('Sandbox_config.sbc', 'w') as file:
+    with open(sbc_write, 'w') as file:
         file.writelines(sandbox_lines)
 
 
@@ -103,11 +113,33 @@ def cleanup():
         pass
 
 
+def gui_entry(file_path):
+    if_fail = read_file(file_path)
+    if not os.path.exists('mods.txt'):
+        with open('mods.txt', 'w+', encoding='utf-8'):
+            pass
+    if if_fail == 4:
+        return 'Permission Error: Access denied'
+    if if_fail == 3:
+        return 'File Not Found Error: Please check path'
+    read_mod_input()
+    remove_blank_lines('mods.tmp')
+    with open('mods.tmp', 'r') as mf:
+        result_gui = mf.read()
+    write_file(result_gui, file_path)
+    cleanup()
+    return 'Mods written successfully'
+
+
 if __name__ == '__main__':
+    # create empty mods.txt if it does not exist
+    if not os.path.exists('mods.txt'):
+        with open('mods.txt', 'w+', encoding='utf-8'):
+            pass
     # removes any duplicate lines from mods.txt
     remove_duplicate_lines('mods.txt')
     # Read Sandbox_config.sbc
-    read_file()
+    sbc = read_file(sbc_file=None)
     # Read mods.txt
     read_mod_input()
     # Remove blank lines from temp mods file (to ensure correct formatting in Sandbox_config.sbc)
@@ -116,7 +148,7 @@ if __name__ == '__main__':
     with open('mods.tmp', 'r') as f:
         result = f.read()
     # Write data from temp mods file
-    write_file(result)
+    write_file(result, sbc)
     # Cleanup temp files
     cleanup()
     print('MODS WRITTEN TO Sandbox_config.sbc SUCCESSFULLY')
