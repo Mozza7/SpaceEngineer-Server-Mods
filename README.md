@@ -1,10 +1,28 @@
-# SpaceEngineers dedicated server add mods - STEAM
+# SpaceEngineers dedicated server add mods - STEAM ONLY
 
-USAGE
+**USAGE**  
 
-1. Place the downloaded EXE file in a folder with your Sandbox_config.sbc (see below) file and a text file named mods.txt  
-2. Run the exe
-   
+**NOGUI:**  
+1. Place the downloaded EXE file in a folder with your Sandbox_config.sbc (see below) file and a text file named mods.txt with links to workshop items as per below example   
+2. Run SE_mods-nogui.exe
+
+**GUI:**  
+1. Run SE_mods-gui.exe  
+2. Select your Sandbox_config.sbc file, if not complete already, edit your mods.txt file, hit submit
+
+**Having trouble?**  
+
+**File Not Found Error:**  
+-This error indicates Sandbox_config.sbc could not be found. Please check the path you have selected, and ensure you have selected the Sandbox_config.sbc file  
+
+**Permission Error:**  
+-This error indicates you do not have permissions to read/write Sandbox_config.sbc. You may need to copy the file to a place your system has permissions and select this as the location, then manually overwrite the original  
+
+**It's not writing my mods to Sandbox_config.sbc:**  
+-Ensure mods.txt has been edited and is in the SAME location as the exe (use the Edit mods.txt button to ensure you are editing the correct file)  
+-Check that you are using STEAM mods, at this time only STEAM is supported  
+-Check the below example mods.txt to ensure you are formatting correctly  
+
 See below for an example mods.txt file, and how to ensure your Sandbox_config.sbc is setup ready.  
 The script will save any mods you have already added, and only add new ones.  
 
@@ -14,17 +32,7 @@ WHY?
 I host my server on unraid, it's a slight inconvenience to either manually add them into the file or spin up an instance on my local machine to copy over. I decided to make this script to ease my inconvenience.  
 
 
-# Sandbox_config.sbc - automated from version 1.2  
-If using version 1.1 or below, this is required - else you can ignore this section:  
-Ensure your Sandbox_config.sbc has  
-\<Mods>  
-\</Mods>  
-at the very least, if no mods are enabled it may only have \<Mods /> - if this is the case, edit the file with a text editor and change it to:  
-\<Mods>  
-\</Mods>  
-and the items inside mods.txt will write correctly
-
-# Example mods.txt 
+# Example mods.txt  
 https://steamcommunity.com/sharedfiles/filedetails/?id=3208450613  
 https://steamcommunity.com/sharedfiles/filedetails/?id=3225398014&searchtext=  
 https://steamcommunity.com/sharedfiles/filedetails/?id=3209008231&searchtext=  
