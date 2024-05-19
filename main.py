@@ -21,7 +21,7 @@ def read_mod_input():
     with open('mods.tmp', 'w+') as mods_object:
         mods_object.write(existing_mods)
         for i in mr:
-            remove_searchtext = re.sub(r'&searchtext=', '', i)
+            remove_searchtext = re.sub(r'&searchtext=.*', '', i)
             mod_id = str(re.findall(r'id=(\d+)', remove_searchtext))
             mod_id = mod_id[2:-2]
             if mod_id not in existing_mod_ids:
