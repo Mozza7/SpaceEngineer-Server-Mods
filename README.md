@@ -14,7 +14,8 @@ WHY?
 I host my server on unraid, it's a slight inconvenience to either manually add them into the file or spin up an instance on my local machine to copy over. I decided to make this script to ease my inconvenience.  
 
 
-# Sandbox_config.sbc
+# Sandbox_config.sbc - automated from version 1.2  
+If using version 1.1 or below, this is required - else you can ignore this section:  
 Ensure your Sandbox_config.sbc has  
 \<Mods>  
 \</Mods>  
