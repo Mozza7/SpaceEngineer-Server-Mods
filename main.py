@@ -27,7 +27,7 @@ def read_file(sbc_file):
         mods_content = mods_match.group(1)
         ff.write(mods_content)
     ff.close()
-    return sbc_file
+    return sbc_file, mods_content
 
 
 def read_mod_input():
